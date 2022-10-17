@@ -10,7 +10,19 @@ The contributors of this repo are:
 Part of the code was reproduced from what seen in class, especially from the solution to the [3x3 puzzle problem](https://github.com/squillero/computational-intelligence/blob/master/2022-23/8-puzzle.ipynb).
 
 ## Methodology
-To solve the problem, we turned the unhashable class `MultiSet()` into a custom hashable class called `SuperSet()`, defined stemming from the dict subclass `Counter()`. 
-This was coupled with a variable called `tuples_seen` which tracked the 'visited' notes.
+To solve the problem, we turned the unhashable class `MultiSet()` into a custom hashable class called `TupleSet()`. This class is endowed with the `register_new` method, which adds a new tuple to the ones already present (inplace), and the `result` method, which applies a specific action to a state and return the resulting tuple.  
+The objects we used are meant to retrieve the set of candidate solutions starting from a state, the cost associated to each candidate solution, and the possible actions given the set of candidate solutions. 
+
+
+## Notes
+Due to Alta Scuola Politecnica committments (mandatory in-presence winter school in Loano) that kept both of us away from Turin from Monday morning until Friday afternoon, we had only been able to implement **breadth-first search**.
 
 ## Results
+| **problem size** | **solution's cost** | **number of visited nodes** |
+|:---:|:---:|:---:|
+| **5** | 10 | 45 |
+| **10** | 16 | 330 |
+| **20** | 24 | 398 |
+| **50** | 42 | 4454 |
+| **100** | 28 | 5966 |
+| **500** | 32 | 28930 |
