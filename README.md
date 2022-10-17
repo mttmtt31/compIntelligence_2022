@@ -1,9 +1,3 @@
----
-title: Lab1 - Set Covering
-author: Francesco Capuano (s295366), Matteo Matteotti (s294552)
-date: today
----
-
 # Lab1 - Set Covering
 This repo contains the solution to the first laboratory of the 2022/2023 Computational Intelligence course called **Set Covering**. The problem specifications can be found [at this link](https://github.com/squillero/computational-intelligence/blob/master/2022-23/lab1_set-covering.ipynb)
 
