@@ -10,7 +10,7 @@ This solution mainly stems from the resolution of the [one-max problem](https://
 
 ## Methodology
 ### Problem encoding
-To better encode the problem, we turned the initial population from a list of lists into an array of booleans in the space $\R^P$.  
+To better encode the problem, we turned the initial population from a list of lists into an array of booleans, where each boolean represents a list inside the problem's list of lists. 
 
 ### Fitness of a candidate
 Our methodology is strongly based on the definition of **fitness** of a given candidate, which has been slightly modified compared to what has been seen in class. 
@@ -19,7 +19,7 @@ Specifically, given a candidate, the `fitness()` function returns a float, evalu
 
 ### The evolution
 Our method evolves through a given number of generations. 
-We implemented two different strategies: `comma`, which corresponds to the $(\lambda, \mu)$-strategy and `plus`, which corresponds to the $(\lambda + \mu)$-strategy.
+We implemented two different strategies: `comma`, which corresponds to the $(\mu/\rho, \lambda)$-strategy and `plus`, which corresponds to the $(\mu/\rho + \lambda)$-strategy.
 
 A generation is defined as follows.
 
@@ -37,7 +37,7 @@ To reproduce our results, set the seed to 42, and use the following values of hy
 | `cross_probability` | 0.7
 | `tournament_size` | 6
 | `max_generations` | 1000
-
+| `strategy`| $\mu/\rho + \lambda$
 
 Once the random seed is fixed to 42, to reproduce our results is sufficient to type in the command line: 
 
@@ -54,7 +54,7 @@ python3 solution.py
 | **50** | 101 | 17.54 |
 | **100** | 230 | 34.48 |
 | **500** | 10398 | 729.99 |
-| **1000** | still running | still running |
+| **1000** | 163173 | 4802.42 |
 
 Our results can also be visualized for what concerns the number evolution of the population along generations. It is possible to see that in the 1000 generations allowed, the majority of the problem sizes converged passing the elbow point (after which the relative improvement of the fittest individual could be considered marginal). 
 
@@ -64,3 +64,8 @@ From this standpoint it is also possible to see that the very large cost associa
 |:-------------------------:|:-------------------------:|:-------------------------:|
 |![img](images/N%3D5-fitness.svg)|![img](images/N%3D10-fitness.svg)|![img](images/N%3D20-fitness.svg)|
 |![img](images/N=50-fitness.svg)|![img](images/N%3D100-fitness.svg)|![img](images/N=500-fitness.svg)|
+
+To obtain satisfactory results (in terms of weight) for our solution, we carried out an extra optimization-route (consisting of 10k generations) that converged to a solution having a final cost of 4232, obtained in 7092.64 seconds.
+
+The optimization process is presented in the following picture. 
+![img](images/N%3D1000-fitness.svg).
