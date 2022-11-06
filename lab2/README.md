@@ -24,22 +24,13 @@ $$
 ### Fitness of a candidate
 Our methodology is strongly based on the definition of **fitness** of a given candidate, which has been slightly modified compared to what has been seen in class. 
 
-Specifically, given a candidate, the `fitness()` function returns a float, evaluated as a weighted difference between the coverage of that candidate (*i.e.*, the proportion of the N digits are actually covered) and the bloat (*i.e.*, the total number of digits inside the candidate, min-max normalised), normalised between 0 and 1.
+Specifically, given a candidate, the `fitness()` function returns a float, evaluated as a weighted difference between the coverage of that candidate (*i.e.*, the proportion of the N digits which are actually covered) and the bloat (*i.e.*, the total number of digits inside the candidate, min-max normalised), normalised between 0 and 1.
 
-In particular, considering that we observed that the problem was solved in its "covering" dimension pretty easily by our approach (i.e., candidates were covering the whole range $1: N-1$), we chose weights penalizing more the bloat. What our approach struggled the most with, was identifying solutions with a reduced cost, hence our choice of using weights such as: 
+Whilst simuating, we noticed that the solutions were usually bloated. To tackle this, we chose to give a larger penalty to the bloat: 
 
 1. $w_{covering} = 0.2$
 2. $w_{bloat} = 0.8$
 
-Once these weights were available, we obtained the fitness value using the following formula: 
-
-$$
-\begin{equation*}
-(w_{covering} \cdot \text{covering-fitness} + w_{bloat} \cdot \text{bloat-fitness)} - w_{bloat} \in [0, 1]
-\end{equation*}
-$$
-
-Since we previously scaled both $covering\_fitness$ and $reps\_fitness$ in the respective 0-1 range, this formulation of each individual fitness granted us values in the 0-1 range, which played a major role in the diagnostic of our solution, as each individual's fitness had a clear and direct interpretation.
 
 ### The evolution
 Our method evolves through a given number of generations. 
