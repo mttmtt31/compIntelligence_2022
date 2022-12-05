@@ -3,6 +3,11 @@ from lab_utils.nim_game import *
 from lab_utils.nim_rules import *
 import argparse
 
+def boolean_string(s):
+    if s.lower() not in {'false', 'true'}:
+        raise ValueError('Not a valid boolean string')
+    return s.lower() == 'true'
+
 def parse_args()->object: 
     """args function. 
     Side note: if args.grid_search is False the agent's parameters will be set equal to our best-tested agent,
@@ -14,10 +19,10 @@ def parse_args()->object:
     parser = argparse.ArgumentParser()
     parser.add_argument("--nim-dimension", default=5, type=int, help="Dimension of the Nim game")
     parser.add_argument("--agent", default="omni", type=str, help="Type of agent to be considered (one in ['omni', 'rules'])")
-    parser.add_argument("--grid-search", default=False, type=bool, help="Whether to perform a grid search on parameters of rules or not")
-    parser.add_argument("--print-best-config", default=False, type=bool, help="Whether or not to print the best config retrieved during grid search")
-    parser.add_argument("--play-action", default=True, type=bool, help="Play the action on the actual Nim game rather than simply returning it")
-    parser.add_argument("--return-action", default=False, type=bool, help="Return best action considering the actual Nim game before playing it")
+    parser.add_argument("--grid-search", default=False, type=boolean_string, help="Whether to perform a grid search on parameters of rules or not")
+    parser.add_argument("--print-best-config", default=False, type=boolean_string, help="Whether or not to print the best config retrieved during grid search")
+    parser.add_argument("--play-action", default=True, type = boolean_string, help="Play the action on the actual Nim game rather than simply returning it")
+    parser.add_argument("--return-action", default=False, type = boolean_string, help="Return best action considering the actual Nim game before playing it")
     parser.add_argument("--rule-alpha", default=None, type=float, help="When agent=rules, probability of nimming biggest heap size row")
     parser.add_argument("--rule-strategy", default=None, type=str, help="When agent=rules, strategy to be used to weigh pairwise difference")
     parser.add_argument("--rule-k", default=None, type=int, help="When agent=rules, number of heaps to be eliminated during opening")
@@ -33,7 +38,7 @@ def main():
         raise ValueError("Invalid input types! Please use help to obtain guidance on input types")
 
     if not args.play_action ^ args.return_action:
-        print("Please specify both --play-action and --return-action if you have not already!")
+        # print("Please specify both --play-action and --return-action if you have not already!")
         raise ValueError("Cannot play and return action at the same time!")
 
     if args.agent.lower() == "rules" and args.grid_search: 
