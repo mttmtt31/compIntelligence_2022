@@ -64,11 +64,25 @@ def main():
             "endgame_nim": args.rule_endgame_nim if args.rule_endgame_nim is not None else 0.6
         }
         game = Nim(args.nim_dimension, agent = args.agent.lower(), **params)
+
+    if game.agent == "minmax" and game._rows > 4:
+        print("WARNING: you are using the minmax agent, and the tree is big. Computations may be really slow, although alpha-beta is implemented.")
         
     if args.play_action: 
         play(game)
     elif args.return_action: 
-        best_move = (best_move_nim_sum if game.agent == 'omni' else best_move_rules)(game)
+        if game.agent == "rl":
+            # generate an instance of the Q-learning agent.
+            ai = train(ai, number_of_heaps = game.number_of_heaps())
+            
+            best_move = ai.best_move_rl(game, with_probability = False)
+        else:
+            best_moves = {
+                "omni" : best_move_nim_sum,
+                "minmax" : best_move_minmax,
+                "rules" : best_move_rules
+            }
+            best_move = best_moves[game.agent](game)
         print(f"According to my super-powers, starting from {game._rows}, the best move is {best_move}")
 
 if __name__ == "__main__": 
