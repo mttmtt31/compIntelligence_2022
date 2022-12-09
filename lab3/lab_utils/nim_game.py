@@ -61,7 +61,7 @@ def play(nim_game:object)->None:
 
             repeat_game = input("Do you want to play again? ['Enter' to play again/any other key to exit] ")
             if repeat_game == "": # repeat the game
-                agent = input("Against what agent? [omni/rules/rl] ")
+                agent = input("Against what agent? [omni/rules/rl/minmax] ")
                 nim_game = Nim(original_game._rows.copy())
                 nim_game.agent = agent    
             else: 

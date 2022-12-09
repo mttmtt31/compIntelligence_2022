@@ -3,8 +3,6 @@ from lab_utils.nim_game import *
 from lab_utils.nim_rules import *
 import argparse
 
-play(Nim(4, 'minmax'))
-
 def boolean_string(s):
     if s.lower() not in {'false', 'true'}:
         raise ValueError('Not a valid boolean string')
@@ -20,7 +18,7 @@ def parse_args()->object:
     """
     parser = argparse.ArgumentParser()
     parser.add_argument("--nim-dimension", default=5, type=int, help="Dimension of the Nim game")
-    parser.add_argument("--agent", default="omni", type=str, help="Type of agent to be considered (one in ['omni', 'rules', 'rl'])")
+    parser.add_argument("--agent", default="omni", type=str, help="Type of agent to be considered (one in ['omni', 'rules', 'rl', 'minmax'])")
     parser.add_argument("--grid-search", default=False, type=boolean_string, help="Whether to perform a grid search on parameters of rules or not")
     parser.add_argument("--print-best-config", default=False, type=boolean_string, help="Whether or not to print the best config retrieved during grid search")
     parser.add_argument("--play-action", default=True, type = boolean_string, help="Play the action on the actual Nim game rather than simply returning it")
@@ -36,7 +34,7 @@ args = parse_args()
 
 def main(): 
     # sanity check on args
-    if args.agent.lower() not in ["omni", "rules", "rl"] or not isinstance(args.nim_dimension, int):
+    if args.agent.lower() not in ["omni", "rules", "rl", "minmax"] or not isinstance(args.nim_dimension, int):
         raise ValueError("Invalid input types! Please use help to obtain guidance on input types")
 
     if not args.play_action ^ args.return_action:
