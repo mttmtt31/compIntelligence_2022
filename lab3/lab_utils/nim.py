@@ -4,7 +4,6 @@ class Nim:
     def __init__(
         self, 
         data:Union[Iterable, int],
-        player:str=None, 
         agent:str=None, 
         **kwargs) -> None:
         """
@@ -13,9 +12,8 @@ class Nim:
         Args:
             data (list or int, optional): if list, each element of a list represent the number of objects in a particular position. 
                                           if int, the game is a list of the odd numbers up to `data`. 
-            player (str, optional): to keep track of the current player during a game. If specified, should be either 'human' or 'computer'. Defaults to None.
             agent (str, optional): if specified, the agent that finds the best move at each step. 
-                                    Only accepts 4 values: omni, minimax, rl, rules, or None. (not case-sensitive). 
+                                    Only accepts 4 values: omni, minmax, rl, rules, or None. (not case-sensitive). 
 
         Kwargs, defined when `agent` = rules:
             k (int): number of heaps that you want to eliminate during the opening. Default: number of heaps - 1.
@@ -36,9 +34,6 @@ class Nim:
         if data is None: 
             raise ValueError("'data' cannot be empty. Please provide either an integer or a list (representing an actual configuration")
         
-        if player is not None and player.lower() not in ["human", "computer"]: 
-            raise ValueError("'player' must be either None or a string in [human, computer]. None corresponds to human player.")
-
         if isinstance(data, Iterable):
             # read configuration from input data, Iterable
             self._rows = list(data).copy()
@@ -48,7 +43,6 @@ class Nim:
         else:
             raise ValueError('Data must be either an integer or an Iterable (try with tuple/list)')
         
-        self.player = player
         self.agent = agent
 
         # default parameters are obtained using an extensive grid search
@@ -57,7 +51,7 @@ class Nim:
         self.endgame_nim = kwargs.get("endgame_nim", 0.6)
         self.strategy = kwargs.get("strategy", "sum")
 
-    def nimming(self, row:int=None, num_objects:int=None, target:list=None, switch_player=False) ->None:
+    def nimming(self, row:int=None, num_objects:int=None, target:list=None) ->None:
         """
             Given a Nim instance, return the nimmed version.
         
@@ -65,7 +59,6 @@ class Nim:
             row (int, optional): row you wish to nim. Defaults to None.
             num_objects (int, optional): number of objects you wish to nim. Defaults to None.
             target (list, optional): if `row` and `num_objects` are not specified, this is the target status AFTER nimming. Defaults to None.
-            switch_player (bool) : if True, switch from self.player from 'human' to 'computer' and viceversa. Default to False.
         """
         if (row is not None and num_objects is not None) ^ (target is not None): 
             pass
@@ -83,10 +76,6 @@ class Nim:
             if pairwise_diff[0] > 0 and pairwise_diff[1] != 0: 
                 raise ValueError("Cannot remove elements from different rows!")
             self._rows = target
-
-        if switch_player:
-            assert self.player is not None # self player cannot be None
-            self.player = 'human' if self.player == 'computer' else 'computer'
 
     def possible_new_states(self):
         """ 

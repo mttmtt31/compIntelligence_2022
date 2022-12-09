@@ -20,7 +20,7 @@ def best_move_nim_sum(nim_game:object, inplace:bool=False)->Union[None, list]:
             # remove one object from the most populated row (minimising other's time-to-win).
             if inplace:
                 # perform the best move on the actual game
-                nim_game.nimming(nim_game.biggest_heap(), 1, switch_player = True)   
+                nim_game.nimming(nim_game.biggest_heap(), 1)   
             else:
                 # return the best move (decreasing by one most populated heap)
                 rows_copy = nim_game._rows.copy()
@@ -38,7 +38,7 @@ def best_move_nim_sum(nim_game:object, inplace:bool=False)->Union[None, list]:
 
             if inplace:
                 # perform the best move on the actual game
-                nim_game.nimming(biggest_difference, nim_differences[biggest_difference], switch_player = True)
+                nim_game.nimming(biggest_difference, nim_differences[biggest_difference])
             else:
                 # return the best move (decreasing by biggest_difference populated heap)
                 rows_copy = nim_game._rows.copy()
@@ -50,7 +50,7 @@ def best_move_nim_sum(nim_game:object, inplace:bool=False)->Union[None, list]:
     else: # match is in endgame
         row, objects_to_nim = endgame_nim_sum(nim_game)
         if inplace:
-            nim_game.nimming(row, objects_to_nim, switch_player = True)
+            nim_game.nimming(row, objects_to_nim)
         else:
             rows_copy = nim_game._rows.copy()
             # decreasing heap at index row by objects_to_nim amount
