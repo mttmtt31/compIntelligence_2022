@@ -27,12 +27,14 @@ def parse_args()->object:
     parser.add_argument("--rule-strategy", default=None, type=str, help="When agent=rules, strategy to be used to weigh pairwise difference")
     parser.add_argument("--rule-k", default=None, type=int, help="When agent=rules, number of heaps to be eliminated during opening")
     parser.add_argument("--rule-endgame-nim", default=None, type=float, help="When agent=rules, percentage of elements to nim in endgame")
+    parser.add_argument("--rl-n-iter", default=10000, type=int, help="When agent=rl, number of games the AI plays in the training phase.")
                                             
     return parser.parse_args()
 
 args = parse_args()
 
 def main(): 
+    print(args.rl_n_iter)
     # sanity check on args
     if args.agent.lower() not in ["omni", "rules", "rl", "minmax"] or not isinstance(args.nim_dimension, int):
         raise ValueError("Invalid input types! Please use help to obtain guidance on input types")
@@ -69,11 +71,11 @@ def main():
         print("WARNING: you are using the minmax agent, and the tree is big. Computations may be really slow, although alpha-beta is implemented.")
         
     if args.play_action: 
-        play(game)
+        play(game, args.rl_n_iter)
     elif args.return_action: 
         if game.agent == "rl":
             # generate an instance of the Q-learning agent.
-            ai = train(ai, number_of_heaps = game.number_of_heaps())
+            ai = train(ai, n_iter = args.rl_n_iter, number_of_heaps = game.number_of_heaps())
             
             best_move = ai.best_move_rl(game, with_probability = False)
         else:
