@@ -3,7 +3,7 @@ from lab_utils.nim_rules import *
 from lab_utils.nim_rl import *
 from lab_utils.nim_minmax import *
 
-def play(nim_game:object)->None:
+def play(nim_game:object, n_iter : int = 10000)->None:
         """This funtion plays the actual game. Human vs computer. Human starts first.
 
         Args:
@@ -34,6 +34,7 @@ def play(nim_game:object)->None:
 
                 print('Hmm... nice move. Very brave of you! My go now!')
                 # omiscent agent, one playing *knowing* how to win
+
                 if nim_game.agent == 'omni':
                     best_move_nim_sum(nim_game, inplace = True)
                 # agent playing according to parametric rules
@@ -46,7 +47,7 @@ def play(nim_game:object)->None:
                 elif nim_game.agent == 'rl':
                     # if this is the agent's first move, I need to train Q-learning model
                     if not ai.q:
-                        ai = train(ai, number_of_heaps = nim_game.number_of_heaps())
+                        ai = train(ai, n_iter = n_iter, number_of_heaps = nim_game.number_of_heaps())
                     
                     action = ai.best_move_rl(nim_game, with_probability = False)
                     nim_game.nimming(target = action._rows)   
