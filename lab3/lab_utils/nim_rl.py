@@ -34,7 +34,7 @@ class NimAI():
         # if the tuple (`old_state`, `action`) is not present in the dictionary, 
         # then add this new key to the dictionary with value equal to the observed reward
         if (old_state_hash, new_state_hash) not in self.q:
-            self.q[old_state_hash, new_state_hash] = [reward]
+            self.q[old_state_hash, new_state_hash] = reward
         else:
             # Consider the action that was played right after by the other player
             # Find the best reward associated to that action
@@ -52,10 +52,10 @@ class NimAI():
                 best_future_reward = max([self.get_q(next_action, action) for action in next_action.possible_new_states()])
 
             # find the previous q-value
-            old_q = self.q[old_state_hash, new_state_hash][-1] 
+            old_q = self.q[old_state_hash, new_state_hash]
 
             # update it accordingly
-            self.q[old_state_hash, new_state_hash].append(old_q + (self.learning_rate * ((reward + best_future_reward) - old_q)))
+            self.q[old_state_hash, new_state_hash] = old_q + (self.learning_rate * ((reward + best_future_reward) - old_q))
 
     def get_q(self, state, action):
         """
@@ -73,7 +73,7 @@ class NimAI():
         action = tuple(action._rows)
         if (state, action) not in self.q:
             return 0
-        return self.q[state, action][-1]
+        return self.q[state, action]
 
 
     def best_move_rl(self, state, with_probability = False):
@@ -99,7 +99,7 @@ class NimAI():
             return state.possible_new_states()[max(enumerate(values), key=lambda x: x[1])[0]]
 
 
-def train(nim_game = None, n_iter = 50000, number_of_heaps = 4):
+def train(nim_game = None, n_iter = 10000, number_of_heaps = 4):
     """
         The AI will play `n_iter` games against itself.
         It will only play games with specified `number_of_heaps`, but with a random number of objects in each heap.
@@ -122,7 +122,9 @@ def train(nim_game = None, n_iter = 50000, number_of_heaps = 4):
     else:
         agent = NimAI()
 
-    for _ in tqdm(range(n_iter), desc = 'Training'):
+    return_per_episode = []
+
+    for i in tqdm(range(n_iter), desc = 'Training'):
         # prepare a random configuration for Nim
         random_configuration = random.choices(range(1, (number_of_heaps - 1) * 2 + 2), k = number_of_heaps)
         
