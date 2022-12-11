@@ -65,8 +65,11 @@ The idea behind Q-learning is to find a function `Q` which associates to each tu
 
 $$ Q(s_t, a_t) \leftarrow  Q(s_t, a_t) + \alpha * (reward_t + \max_aQ(s_{t+1}, a_t) - Q(s_t, a_t))$$.
 
-When called, the agent (inspired from [this](https://github.com/Luigian/Nim)) will first go through the training phase, playing 50k games against itself. Though not necessary, we decided to train our agent on various different combinations of Nim, keeping the specified number of rows as the only constraint. This was a deliberate choice to guarantee a better exploration of the space.
-The training phase usually doesn't take more than 15 seconds.
+When called, the agent (inspired from [this](https://github.com/Luigian/Nim)) will first go through the training phase, playing a given number of games (which can be set by the user) against itself. Though not necessary, we decided to train our agent on various different combinations of Nim, keeping the specified number of rows as the only constraint. This was a deliberate choice to guarantee a better exploration of the space.
+
+One can visualise the behahviour of our Q-learning agent when training on `Nim(4)` in the following figure.
+
+![img](images/return_per_episode.png)
 
 
 ## How to reproduce our results
@@ -91,6 +94,7 @@ In addition to that, some arguments can be specified:
 - `rule-strategy` : when using the rule-based agent, strategy to use to weigh pairwise difference. One in ['min', 'max', 'sum']. Defaults to None.
 - `rule-k` : when using the rule-based agent, number of heaps to eliminate during the opening phase. Defaults to None.
 - `rule-endgame-nim` : when using the rule-based agent, percentage of elements to nim from the biggest row during the endgame phase. Defaults to None.
+- `rl-n-iter` : when using the RL-based agent, set the number of games the AI plays against itself during the training phase. Defaults to 10000.
 
 Should you wish to play a 4-row Nim game against the nim-sum agent, you should type:
 
