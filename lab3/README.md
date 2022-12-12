@@ -69,7 +69,7 @@ When called, the agent (inspired from [this](https://github.com/Luigian/Nim)) wi
 
 One can visualise the behahviour of our Q-learning agent when training on `Nim(4)` in the following figure.
 
-![img](images/return_per_episode.svg)
+![img](images/return_per_episode.png)
 
 
 ## How to reproduce our results
