@@ -34,7 +34,6 @@ def parse_args()->object:
 args = parse_args()
 
 def main(): 
-    print(args.rl_n_iter)
     # sanity check on args
     if args.agent.lower() not in ["omni", "rules", "rl", "minmax"] or not isinstance(args.nim_dimension, int):
         raise ValueError("Invalid input types! Please use help to obtain guidance on input types")
