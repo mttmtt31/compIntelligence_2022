@@ -66,7 +66,7 @@ def main():
         }
         game = Nim(args.nim_dimension, agent = args.agent.lower(), **params)
 
-    if game.agent == "minmax" and game._rows > 4:
+    if game.agent == "minmax" and len(game._rows) > 4:
         print("WARNING: you are using the minmax agent, and the tree is big. Computations may be really slow, although alpha-beta is implemented.")
         
     if args.play_action: 
